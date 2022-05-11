@@ -39,6 +39,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class MainActivity extends AppCompatActivity {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 1404;
     private ImageButton chameleon;
+    private EditText keyEditText;
     private Intent serviceOverlayIntent;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -81,9 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         PreferencesSingleton preferencesSingleton = PreferencesSingleton.getInstance();
         PreferencesSingleton.getInstance().initPreferences(this);
-        //PreferencesSingleton.getInstance().getPreferences().setKey("69V053-8QV96-Q0C65-GZZ00");
-        //PreferencesSingleton.getInstance().getPreferences().savePrefs();
-
+        keyEditText.setText( PreferencesSingleton.getInstance().getPreferences().getKey());
 
         //This permission is by default available for API<23. But for API > 23 you have to ask for the permission in runtime. запросить права на оверлей
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
@@ -104,8 +103,14 @@ public class MainActivity extends AppCompatActivity {
     private void initViews()
     {
         chameleon = (ImageButton) findViewById(R.id.chameleon);
+        keyEditText = findViewById(R.id.keyEditText);
     }
 
+    public void SaveKey(View view)
+    {
+        PreferencesSingleton.getInstance().getPreferences().setKey(keyEditText.getText().toString());
+        PreferencesSingleton.getInstance().getPreferences().savePrefs();
+    }
 
     private void initOverlayServiceStarter() {
         chameleon.setOnClickListener(new View.OnClickListener() {

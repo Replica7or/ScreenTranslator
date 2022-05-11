@@ -66,7 +66,6 @@ public class OverlayService extends Service {
     private WindowManager.LayoutParams topParams;
     private WindowManager.LayoutParams edgeParams;
     private RelativeLayout topView;
-    private UnmaskRelativeLayout contentView;
     private View topGrab;
     private View edge;
     private View takeScreen;
