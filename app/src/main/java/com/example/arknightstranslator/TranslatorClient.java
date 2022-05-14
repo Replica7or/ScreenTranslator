@@ -2,6 +2,9 @@ package com.example.arknightstranslator;
 
 import android.util.Log;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,10 +25,17 @@ public class TranslatorClient {
     public void translate(String textToTranslate)
     {
 
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.cloudapi.stream")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
+
         ITranslatorClient api = retrofit.create(ITranslatorClient.class);
 
         TranslatorBody body = new TranslatorBody();
@@ -46,7 +56,10 @@ public class TranslatorClient {
 
             @Override
             public void onFailure(Call<TranslatorResponse> call, Throwable t) {
-
+                if(t.getMessage().equals("timeout"))
+                {
+                    main.setText("превышено время ожидания запроса на перевод");
+                }
                 Log.d("QQQQ",t.getMessage());
             }
         });

@@ -1,7 +1,8 @@
-package com.example.arknightstranslator;
+ package com.example.arknightstranslator;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.app.Application;
 import android.app.Service;
@@ -21,6 +22,9 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -102,14 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews()
     {
-        chameleon = (ImageButton) findViewById(R.id.chameleon);
+        chameleon = findViewById(R.id.chameleon);
         keyEditText = findViewById(R.id.keyEditText);
-    }
-
-    public void SaveKey(View view)
-    {
-        PreferencesSingleton.getInstance().getPreferences().setKey(keyEditText.getText().toString());
-        PreferencesSingleton.getInstance().getPreferences().savePrefs();
     }
 
     private void initOverlayServiceStarter() {
@@ -177,6 +175,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.defaultmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.item_settings:
+
+                Intent settingActivity = new Intent(this, SettingsActivity.class);
+                startActivity(settingActivity);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         foreground = true;
@@ -225,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
         };
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
     }
-
 
     private void setListenerOnService(Service service)
     {
