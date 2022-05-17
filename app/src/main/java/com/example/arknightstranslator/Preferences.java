@@ -24,7 +24,4 @@ public class Preferences {
         return prefs.getString("keyTranslate", "не установлено");
     }
 
-    public void setDoTranslate(boolean isDoTranslate) {
-        //settingsMap.put("isDoTranslate",isDoTranslate);
-    }
 }
