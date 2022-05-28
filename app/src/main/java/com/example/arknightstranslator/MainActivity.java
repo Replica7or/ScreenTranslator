@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setText(String text)
     {
+        text=TextCleaner.removeCSS(text);
         overlayService.takeTextFromBitmap(text);
     }
 }
