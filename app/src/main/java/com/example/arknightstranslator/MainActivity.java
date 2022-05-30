@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity {
                     //setText(text);
                     //перевод
                     TranslatorClient client = new TranslatorClient(MainActivity.this );
-                    client.translate(text);
+                    client.translate_MyMemoryService(text);
+                   // client.translate(text);
                 }
             });
         }

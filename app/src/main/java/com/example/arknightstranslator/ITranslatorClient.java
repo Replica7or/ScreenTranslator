@@ -14,6 +14,9 @@ public interface ITranslatorClient {
     @GET("/search/repositories")
     Call<ResponseBody> reposByName(@Query("q") String q, @Query("page") int page, @Query("per_page") int per_page);
 
+    @GET("/get")
+    Call<JSONresponce> translate_MyMemoryService(@Query("q") String text, @Query("langpair") String langs);
+
     @POST("/")
-    Call<TranslatorResponse>  translate(@Body TranslatorBody registrationBody, @Header("x-key") String KEY, @Header("content-type") String contentType);
+    Call<TranslatorResponse>  translate_CloudAPIService(@Body TranslatorBody registrationBody, @Header("x-key") String KEY, @Header("content-type") String contentType);
 }
