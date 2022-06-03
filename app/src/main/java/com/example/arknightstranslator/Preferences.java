@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-import java.util.Map;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class Preferences {
     private Context context;

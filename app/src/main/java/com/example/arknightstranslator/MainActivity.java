@@ -32,6 +32,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
+import com.example.arknightstranslator.TranslateServices.MyMemory_Service;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -253,13 +255,9 @@ public class MainActivity extends AppCompatActivity {
                     TesseractOCR OCR = new TesseractOCR(getApplicationContext());
                     String text = OCR.recognize(bitmap);
                     text = text.replace("\n", " ");
-                    //Toast.makeText(this, text + "OCR result", Toast.LENGTH_SHORT).show();
-                    //overlayService.takeTextFromBitmap(text);
-                    //setText(text);
-                    //перевод
-                    TranslatorClient client = new TranslatorClient(MainActivity.this );
-                    client.translate_MyMemoryService(text);
-                   // client.translate(text);
+
+                    TranslatorClient client = new MyMemory_Service(MainActivity.this );
+                    client.translate(text);
                 }
             });
         }

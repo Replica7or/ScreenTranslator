@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface ITranslatorClient {
 
-    @GET("/search/repositories")
+    @GET("/search/repositories")    //кусок старого проекта с гитом TODO не забыть выкинуть
     Call<ResponseBody> reposByName(@Query("q") String q, @Query("page") int page, @Query("per_page") int per_page);
 
     @GET("/get")
