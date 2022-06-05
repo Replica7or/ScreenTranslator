@@ -20,5 +20,8 @@ public class Preferences {
     public String getKey() {
         return prefs.getString("keyTranslate", "не установлено");
     }
+    public String getServiceName() {
+        return prefs.getString("translName", "не выбран сервис для перевода");
+    }
 
 }

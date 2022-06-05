@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.arknightstranslator.ITranslatorClient;
 import com.example.arknightstranslator.JSONresponce;
 import com.example.arknightstranslator.MainActivity;
+import com.example.arknightstranslator.MyEvent;
 import com.example.arknightstranslator.TranslatorClient;
 
 import retrofit2.Call;
@@ -14,10 +15,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyMemory_Service extends TranslatorClient {
-
-
-    public MyMemory_Service(MainActivity main) {
-        super(main);
+    public MyMemory_Service() {
+        super();
     }
 
     public void translate(String textToTranslate) {
@@ -35,8 +34,8 @@ public class MyMemory_Service extends TranslatorClient {
             @Override
             public void onResponse(Call<JSONresponce> call, Response<JSONresponce> response) {
                 try {
-                    String text = response.body().getMatches()[0].getTranslation();
-                    main.setText(text);     //TODO удбрать связь с main и вызов отсюда, возвращать текст вместо этого
+                    text = response.body().getMatches()[0].getTranslation();
+                    notifyEventListeners(new MyEvent((this)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

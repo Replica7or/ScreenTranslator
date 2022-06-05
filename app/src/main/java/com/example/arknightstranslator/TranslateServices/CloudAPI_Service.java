@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.arknightstranslator.ITranslatorClient;
 import com.example.arknightstranslator.MainActivity;
+import com.example.arknightstranslator.MyEvent;
 import com.example.arknightstranslator.TranslatorBody;
 import com.example.arknightstranslator.TranslatorClient;
 import com.example.arknightstranslator.TranslatorResponse;
@@ -18,8 +19,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CloudAPI_Service extends TranslatorClient {
-    public CloudAPI_Service(MainActivity main) {
-        super(main);
+    public CloudAPI_Service() {
+        super();
     }
 
 
@@ -44,8 +45,9 @@ public class CloudAPI_Service extends TranslatorClient {
             @Override
             public void onResponse(Call<TranslatorResponse> call, Response<TranslatorResponse> response) {
                 if (response.body() != null) {
-                    String text = response.body().text;
-                    main.setText(text);   //TODO удбрать связь с main и вызов отсюда, возвращать текст вместо этого
+                    text = response.body().text;
+
+                    notifyEventListeners(new MyEvent((this)));
                     Log.d("QQQQ","text");
                 }
             }

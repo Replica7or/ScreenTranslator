@@ -2,9 +2,7 @@
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
-import android.app.Application;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,26 +17,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-import com.example.arknightstranslator.TranslateServices.MyMemory_Service;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.arknightstranslator.TranslateServices.*;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -256,8 +244,30 @@ public class MainActivity extends AppCompatActivity {
                     String text = OCR.recognize(bitmap);
                     text = text.replace("\n", " ");
 
-                    TranslatorClient client = new MyMemory_Service(MainActivity.this );
-                    client.translate(text);
+                    String translationServiceName = PreferencesSingleton.getInstance().getPreferences().getServiceName();
+                    ATranslation translation  =null;
+                    //TODO переписать этот кусок. выбор сервиса не должен происходить здесь: либо вынести в другой класс, либо переписать клиент на нормальную стратегию
+                    switch (translationServiceName) {
+                        case "myMemories": {
+                            translation = new MyMemory_Service();
+                        }
+                        case "cloudAPI": {
+                            translation = new CloudAPI_Service();
+                        }
+                        case "offline": {
+                            translation = new OfflineTranslation();
+                        }
+                    }
+
+                    ATranslation finTranslation = translation;
+                    translation.addOnTranslateListener(new MyEventListener() {
+                        @Override
+                        public void processEvent(MyEvent event) {
+                            String result = finTranslation.getText();
+                                    setText(result);
+                        }
+                    });
+                    translation.translate(text);
                 }
             });
         }
@@ -276,6 +286,6 @@ public class MainActivity extends AppCompatActivity {
     public void setText(String text)
     {
         text=TextCleaner.removeCSS(text);
-        overlayService.takeTextFromBitmap(text);
+        overlayService.setTextInTextView(text);
     }
 }

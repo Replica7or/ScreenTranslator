@@ -16,14 +16,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public abstract class TranslatorClient {
+public abstract class TranslatorClient extends ATranslation {
     protected  final OkHttpClient okHttpClient;
-    protected MainActivity main;
     protected String key;
 
-    public TranslatorClient(MainActivity main)
+    public TranslatorClient()
     {
-        this.main = main;
         this.key = PreferencesSingleton.getInstance().getPreferences().getKey();
         okHttpClient =  new OkHttpClient.Builder()
                 .readTimeout(20, TimeUnit.SECONDS)

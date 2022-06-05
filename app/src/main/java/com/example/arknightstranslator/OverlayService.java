@@ -332,14 +332,9 @@ public class OverlayService extends Service {
     }*/
 
 
-    public void takeTextFromBitmap(String text) {
+    public void setTextInTextView(String text) {
         try {
             new MyRunnable(text);
-                //textView.setText(text);
-            //textView.requestFocus();
-                //textView.invalidate();
-                //textView.requestLayout();
-            //openScreenshot(imageFile);
         } catch (Throwable e) {
             Log.d("COR_ERROR", e.getMessage());
             e.printStackTrace();
